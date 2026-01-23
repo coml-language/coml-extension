@@ -7,14 +7,20 @@
     "vscode": "^1.50.0"
   },
   "categories": [
-    "Programming Languages"
+    "Programming Languages",
+    "Snippets"
   ],
   "contributes": {
     "languages": [
       {
         "id": "coml",
-        "aliases": ["COML", "coml"],
-        "extensions": [".coml"],
+        "aliases": [
+          "COML",
+          "coml"
+        ],
+        "extensions": [
+          ".coml"
+        ],
         "configuration": "./language-configuration.json"
       }
     ],
