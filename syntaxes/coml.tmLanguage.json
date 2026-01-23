@@ -1,11 +1,13 @@
 {
-    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
-    "name": "COML",
-    "scopeName": "source.coml",
-    "patterns": [
-        { "include": "#comments" }
-    ],
-    "repository": {
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "COML",
+	"scopeName": "source.coml",
+	"patterns": [
+		{ "include": "#comments" },
+		{ "include": "#table-headers" },
+		{ "include": "#keys" }
+	],
+	"repository": {
 		"comments": {
 			"patterns": [
 				{
@@ -17,6 +19,155 @@
 					"name": "comment.line.number-sign.coml",
 					"match": "#.*$"
 				}
+			]
+		},
+		"strings": {
+			"patterns": [
+				{
+					"name": "string.quoted.triple.basic.coml",
+					"begin": "\"\"\"",
+					"end": "\"\"\"",
+					"patterns": [
+						{ "include": "#escapes" }
+					]
+				},
+				{
+					"name": "string.quoted.triple.literal.coml",
+					"begin": "'''",
+					"end": "'''"
+				},
+				{
+					"name": "string.quoted.double.basic.coml",
+					"begin": "\"",
+					"end": "\"",
+					"patterns": [
+						{ "include": "#escapes" }
+					]
+				},
+				{
+					"name": "string.quoted.single.literal.coml",
+					"begin": "'",
+					"end": "'"
+				}
+			]
+		},
+		"escapes": {
+			"name": "constant.character.escape.coml",
+			"match": "\\\\."
+		},
+		"numbers": {
+			"patterns": [
+				{
+					"name": "constant.numeric.float.special.coml",
+					"match": "[+-]?(inf|nan)\\b"
+				},
+				{
+					"name": "constant.numeric.hex.coml",
+					"match": "\\b0x[0-9a-fA-F_]+\\b"
+				},
+				{
+					"name": "constant.numeric.octal.coml",
+					"match": "\\b0o[0-7_]+\\b"
+				},
+				{
+					"name": "constant.numeric.binary.coml",
+					"match": "\\b0b[01_]+\\b"
+				},
+				{
+					"name": "constant.numeric.float.coml",
+					"match": "[+-]?\\d([\\d_]*\\d)?\\.\\d([\\d_]*\\d)?([eE][+-]?\\d([\\d_]*\\d)?)?"
+				},
+				{
+					"name": "constant.numeric.float.scientific.coml",
+					"match": "[+-]?\\d([\\d_]*\\d)?[eE][+-]?\\d([\\d_]*\\d)?"
+				},
+				{
+					"name": "constant.numeric.integer.coml",
+					"match": "[+-]?\\b\\d([\\d_]*\\d)?\\b"
+				}
+			]
+		},
+		"booleans": {
+			"name": "constant.language.boolean.coml",
+			"match": "\\b(true|false)\\b"
+		},
+		"arrays": {
+			"begin": "\\[",
+			"beginCaptures": {
+				"0": { "name": "punctuation.definition.array.begin.coml" }
+			},
+			"end": "\\]",
+			"endCaptures": {
+				"0": { "name": "punctuation.definition.array.end.coml" }
+			},
+			"patterns": [
+				{ "include": "#values" },
+				{
+					"name": "punctuation.separator.array.coml",
+					"match": ","
+				}
+			]
+		},
+		"inline-tables": {
+			"begin": "\\{",
+			"beginCaptures": {
+				"0": { "name": "punctuation.definition.table.inline.begin.coml" }
+			},
+			"end": "\\}",
+			"endCaptures": {
+				"0": { "name": "punctuation.definition.table.inline.end.coml" }
+			},
+			"patterns": [
+				{ "include": "#keys" },
+				{
+					"name": "punctuation.separator.table.inline.coml",
+					"match": ","
+				}
+			]
+		},
+		"table-headers": {
+			"patterns": [
+				{
+					"match": "^\\s*(\\{)(\\[)([A-Za-z0-9_.-]+)(\\])(\\})",
+					"captures": {
+						"1": { "name": "punctuation.definition.table.begin.coml" },
+						"2": { "name": "punctuation.definition.array.begin.coml" },
+						"3": { "name": "entity.name.section.array.coml" },
+						"4": { "name": "punctuation.definition.array.end.coml" },
+						"5": { "name": "punctuation.definition.table.end.coml" }
+					}
+				},
+				{
+					"match": "^\\s*(\\{)([A-Za-z0-9_.-]+)(\\})",
+					"captures": {
+						"1": { "name": "punctuation.definition.table.begin.coml" },
+						"2": { "name": "entity.name.section.table.coml" },
+						"3": { "name": "punctuation.definition.table.end.coml" }
+					}
+				}
+			]
+		},
+		"keys": {
+			"match": "([A-Za-z0-9_-]+)\\s*(=)",
+			"captures": {
+				"1": { "name": "variable.key.coml" },
+				"2": { "name": "punctuation.separator.key-value.coml" }
+			},
+			"push": {
+				"while": "(?=$|\\}|,)",
+				"patterns": [
+					{ "include": "#values" }
+				]
+			}
+		},
+		"values": {
+			"patterns": [
+				{ "include": "#comments" },
+				{ "include": "#strings" },
+				{ "include": "#numbers" },
+				{ "include": "#booleans" },
+				{ "include": "#arrays" },
+				{ "include": "#inline-tables" }
 			]
 		}
 	}
