@@ -6,6 +6,8 @@ on:
 jobs:
     deploy:
         runs-on: ubuntu-latest
+        permissions:
+            contents: write
         defaults:
             run:
                 working-directory: ./editors/vscode/
@@ -30,7 +32,7 @@ jobs:
             - name: Create GitHub Release
               uses: softprops/action-gh-release@v2
               with:
-                tag_name: v${{ github.event.inputs.version }}
-                files: editors/vscode/*.vsix
+                  tag_name: v${{ github.event.inputs.version }}
+                  files: editors/vscode/*.vsix
               env:
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
