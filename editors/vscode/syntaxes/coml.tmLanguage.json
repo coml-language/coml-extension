@@ -1,16 +1,39 @@
 {
-    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
     "name": "COML",
     "scopeName": "source.coml",
     "patterns": [
-        { "include": "#comments" },
-        { "include": "#interpolation" },
-        { "include": "#table-headers" },
-        { "include": "#keys" },
-        { "include": "#values" }
+        {
+            "include": "#commentDirective"
+        },
+        {
+            "include": "#comment"
+        },
+        {
+            "include": "#table"
+        },
+        {
+            "include": "#entryBegin"
+        },
+        {
+            "include": "#value"
+        },
+        {
+            "include": "#interpolation"
+        }
     ],
     "repository": {
-        "comments": {
+        "comment": {
+            "captures": {
+                "1": {
+                    "name": "comment.line.number-sign.coml"
+                },
+                "2": {
+                    "name": "punctuation.definition.comment.coml"
+                }
+            },
+            "match": "\\s*((#).*)$"
+        },
+        "commentDirective": {
             "patterns": [
                 {
                     "name": "comment.block.coml",
@@ -18,8 +41,15 @@
                     "end": ":#"
                 },
                 {
-                    "name": "comment.line.number-sign.coml",
-                    "match": "#.*$"
+                    "captures": {
+                        "1": {
+                            "name": "meta.preprocessor.coml"
+                        },
+                        "2": {
+                            "name": "punctuation.definition.meta.preprocessor.coml"
+                        }
+                    },
+                    "match": "\\s*((#):.*)$"
                 }
             ]
         },
@@ -28,10 +58,14 @@
             "begin": "\\{\\{",
             "end": "\\}\\}",
             "beginCaptures": {
-                "0": { "name": "punctuation.section.interpolation.begin.coml" }
+                "0": {
+                    "name": "punctuation.section.interpolation.begin.coml"
+                }
             },
             "endCaptures": {
-                "0": { "name": "punctuation.section.interpolation.end.coml" }
+                "0": {
+                    "name": "punctuation.section.interpolation.end.coml"
+                }
             },
             "patterns": [
                 {
@@ -40,85 +74,155 @@
                 }
             ]
         },
-        "table-headers": {
+        "table": {
             "patterns": [
                 {
                     "name": "meta.section.table.coml",
-                    "match": "^\\s*(\\{)(\\[)([A-Za-z0-9_\\.-]+)(\\])(\\})",
+                    "match": "^\\s*(\\{)(\\[)\\s*((?:(?:(?:[A-Za-z0-9_\\.-]+)|(?:\"[^\"]+\")|(?:'[^']+'))\\s*\\.?\\s*)+)\\s*(\\])(\\})",
                     "captures": {
-                        "1": { "name": "punctuation.section.embedded.begin.coml" },
-                        "2": { "name": "punctuation.definition.array.begin.coml" },
-                        "3": { "name": "entity.name.section.coml" },
-                        "4": { "name": "punctuation.definition.array.end.coml" },
-                        "5": { "name": "punctuation.section.embedded.end.coml" }
+                        "1": {
+                            "name": "punctuation.section.embedded.begin.coml"
+                        },
+                        "2": {
+                            "name": "punctuation.definition.array.begin.coml"
+                        },
+                        "3": {
+                            "patterns": [
+                                {
+                                    "match": "(?:[A-Za-z0-9_\\.-]+)|(?:\"[^\"]+\")|(?:'[^']+')",
+                                    "name": "entity.name.section.coml"
+                                },
+                                {
+                                    "match": "\\.",
+                                    "name": "punctuation.separator.dot.coml"
+                                }
+                            ]
+                        },
+                        "4": {
+                            "name": "punctuation.definition.array.end.coml"
+                        },
+                        "5": {
+                            "name": "punctuation.section.embedded.end.coml"
+                        }
                     }
                 }
             ]
         },
-        "keys": {
-            "match": "\\b([A-Za-z0-9_\\.-]+)\\s*(?==)",
+        "entryBegin": {
+            "name": "meta.entry.coml",
+            "match": "\\b(([A-Za-z0-9_\\.-]+))\\s*(=)",
             "captures": {
-                "1": { "name": "variable.key.coml" }
+                "1": {
+                    "name": "variable.key.coml"
+                },
+                "3": {
+                    "name": "punctuation.separator.key-value.coml"
+                }
             }
         },
-        "values": {
+        "value": {
             "patterns": [
-                { "match": "=", "name": "punctuation.separator.key-value.coml" },
-                { "include": "#interpolation" },
-                { "include": "#strings" },
-                { "include": "#numbers" },
-                { "include": "#booleans" },
-                { "include": "#inline-tables" },
-                { "include": "#arrays" },
-                { "include": "#comments" }
-            ]
-        },
-        "strings": {
-            "patterns": [
+                {
+                    "include": "#interpolation"
+                },
+                {
+                    "name": "string.quoted.triple.basic.block.coml",
+                    "begin": "\"\"\"",
+                    "end": "\"\"\"",
+                    "patterns": [
+                        {
+                            "include": "#interpolation"
+                        },
+                        {
+                            "match": "\\\\([btnfr\"\\\\\\n/ ]|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})",
+                            "name": "constant.character.escape.coml"
+                        }
+                    ]
+                },
                 {
                     "name": "string.quoted.double.coml",
                     "begin": "\"",
                     "end": "\"",
                     "patterns": [
-                        { "include": "#interpolation" },
-                        { "name": "constant.character.escape.coml", "match": "\\\\." }
+                        {
+                            "include": "#interpolation"
+                        },
+                        {
+                            "match": "\\\\([btnfr\"\\\\\\n/ ]|u[0-9A-Fa-f]{4}|U[0-9A-Fa-f]{8})",
+                            "name": "constant.character.escape.coml"
+                        }
+                    ]
+                },
+                {
+                    "name": "constant.language.boolean.coml",
+                    "match": "\\b(true|false|workspace)\\b"
+                },
+                {
+                    "name": "constant.numeric.float.coml",
+                    "match": "(?<!\\w)([\\+\\-]?(0|[1-9][0-9_]*)(?:\\.[0-9_]*)([eE][\\+\\-]?[0-9]+)?)(?!\\w)"
+                },
+                {
+                    "name": "constant.numeric.integer.coml",
+                    "match": "(?<!\\w)([\\+\\-]?(0|[1-9][0-9_]*))(?!\\w)"
+                },
+                {
+                    "name": "constant.numeric.hex.coml",
+                    "match": "0x[0-9a-fA-F][0-9a-fA-F_]*"
+                },
+                {
+                    "name": "meta.array.coml",
+                    "begin": "\\[",
+                    "end": "\\]",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.array.begin.coml"
+                        }
+                    },
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.array.end.coml"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "match": ",",
+                            "name": "punctuation.separator.array.coml"
+                        },
+                        {
+                            "include": "#value"
+                        },
+                        {
+                            "include": "#comment"
+                        }
+                    ]
+                },
+                {
+                    "name": "meta.table.inline.coml",
+                    "begin": "\\{",
+                    "end": "\\}",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.table.inline.begin.coml"
+                        }
+                    },
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.table.inline.end.coml"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#entryBegin"
+                        },
+                        {
+                            "include": "#value"
+                        },
+                        {
+                            "match": ",",
+                            "name": "punctuation.separator.table.inline.coml"
+                        }
                     ]
                 }
-            ]
-        },
-        "numbers": {
-            "name": "constant.numeric.coml",
-            "match": "\\b\\d+(\\.\\d+)?\\b"
-        },
-        "booleans": {
-            "name": "constant.language.boolean.coml",
-            "match": "\\b(true|false|workspace)\\b"
-        },
-        "inline-tables": {
-            "begin": "\\{",
-            "end": "\\}",
-            "beginCaptures": {
-                "0": { "name": "punctuation.definition.table.inline.begin.coml" }
-            },
-            "endCaptures": {
-                "0": { "name": "punctuation.definition.table.inline.end.coml" }
-            },
-            "patterns": [
-                { "include": "#keys" },
-                { "include": "#values" }
-            ]
-        },
-        "arrays": {
-            "begin": "\\[",
-            "end": "\\]",
-            "beginCaptures": {
-                "0": { "name": "punctuation.definition.array.begin.coml" }
-            },
-            "endCaptures": {
-                "0": { "name": "punctuation.definition.array.end.coml" }
-            },
-            "patterns": [
-                { "include": "#values" }
             ]
         }
     }
