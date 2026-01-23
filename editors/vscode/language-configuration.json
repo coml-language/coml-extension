@@ -9,10 +9,28 @@
             "noIndent": false
         }
     },
+    "autoCloseBefore": ";:.,=}])> \n\t",
     "autoClosingPairs": [
+        {
+            "open": "\"",
+            "close": "\"",
+            "notIn": [
+                "string"
+            ]
+        }
+    ],
+    "surroundingPairs": [
         [
-            "#:",
-            ":#"
+            "\"",
+            "\""
+        ],
+        [
+            "'",
+            "'"
+        ],
+        [
+            "(",
+            ")"
         ]
     ]
 }

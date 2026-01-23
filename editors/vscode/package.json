@@ -2,6 +2,7 @@
   "name": "coml-extension",
   "version": "0.1.0",
   "publisher": "jclermonttt",
+  "icon": "./icons/coml-icons.png",
   "engines": {
     "vscode": "^1.85.0"
   },
@@ -13,12 +14,18 @@
     "languages": [
       {
         "id": "coml",
+        "aliases": [
+          "COML",
+          "coml"
+        ],
         "extensions": [
           ".coml"
         ],
-        "aliases": [
-          "COML"
-        ]
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./icons/coml-icon.png",
+          "dark": "./icons/coml-icon.png"
+        }
       }
     ],
     "grammars": [
