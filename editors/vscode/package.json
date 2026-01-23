@@ -20,6 +20,13 @@
           "COML"
         ]
       }
+    ],
+    "grammars": [
+      {
+        "language": "coml",
+        "scopeName": "source.coml",
+        "path": "../../syntaxes/coml.tmLanguage.json"
+      }
     ]
   },
   "scripts": {
