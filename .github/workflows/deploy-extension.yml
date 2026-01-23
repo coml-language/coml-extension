@@ -28,4 +28,4 @@ jobs:
               run: npm install
 
             - name: Package (.vsix)
-              run: npx @vscode/vsce package ${{ github.event.inputs.version }} --no-git
+              run: npx @vscode/vsce package ${{ github.event.inputs.version }}
