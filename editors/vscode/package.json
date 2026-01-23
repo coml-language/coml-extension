@@ -9,7 +9,6 @@
   "activationEvents": [
     "onLanguage:coml"
   ],
-  "main": "./out/extension.js",
   "contributes": {
     "languages": [
       {

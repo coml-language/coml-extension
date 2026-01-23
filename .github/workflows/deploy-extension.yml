@@ -2,10 +2,7 @@ name: Deploy Extension (COML)
 
 on:
     workflow_dispatch:
-        inputs:
-            version:
-                description: "New version (e.g. 0.1.0)"
-                required: true
+        
 jobs:
     deploy:
         runs-on: ubuntu-latest
