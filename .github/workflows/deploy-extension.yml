@@ -41,9 +41,9 @@ jobs:
               # On utilise publishVsix pour envoyer le fichier généré à l'étape précédente
               run: |
                   VSIX_FILE=$(ls *.vsix)
-                  npx @vscode/vsce publish --packagePath "$VSIX_FILE" -p "${{ secrets.VSCE_PATH }}"
+                  npx @vscode/vsce publish --packagePath "$VSIX_FILE" -p "${{ secrets.VSCE_PAT }}"
               env:
-                  VSCE_PAT: ${{ secrets.VSCE_PATH }}
+                  VSCE_PAT: ${{ secrets.VSCE_PAT }}
 
             - name: Create GitHub Release
               uses: softprops/action-gh-release@v2
