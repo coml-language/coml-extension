@@ -1,0 +1,29 @@
+[workspace]
+resolver = "3"
+members = ["crates/*"]
+
+[workspace.package]
+authors = ["jclermonttt"]
+edition = "2024"
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/coml-language/coml-extension"
+
+[workspace.metadata.coml]
+vscode = "./editors/vscode"
+
+[workspace.dependencies]
+coml-lsp = { version = "*", path = "./crates/coml-lsp" }
+
+
+[profile.release]
+codegen-units = 1
+lto = "thin"
+opt-level = 3
+strip = true
+
+[profile.dev]
+incremental = false # Réduit la taille au prix d'une compilation un peu plus longue
+
+[profile.bench]
+lto = true
+opt-level = 3

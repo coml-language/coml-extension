@@ -1,0 +1,18 @@
+{
+    "comments": {
+        "blockComment": [
+            "#:",
+            ":#"
+        ],
+        "lineComment": {
+            "comment": "#",
+            "noIndent": false
+        }
+    },
+    "autoClosingPairs": [
+        [
+            "#:",
+            ":#"
+        ]
+    ]
+}

@@ -1,0 +1,23 @@
+[package]
+name = "coml-lsp"
+version = "0.1.0"
+edition = { workspace = true }
+authors = { workspace = true }
+license = { workspace = true }
+repository = { workspace = true }
+build = "./build.rs"
+
+[[bin]]
+name = "coml-server"
+path = "src/main.rs"
+
+[features]
+default = []
+
+[dependencies]
+tokio = { version = "*", default-features = false, features = ["full"] }
+tower-lsp = { version = "*" }
+serde = { version = "*", default-features = false, features = ["derive"] }
+
+[build-dependencies]
+cargo_metadata = "0.23"

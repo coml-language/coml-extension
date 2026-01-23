@@ -1,0 +1,36 @@
+{
+  "name": "coml-extension",
+  "version": "0.1.0",
+  "publisher": "jclermonttt",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "activationEvents": [
+    "onLanguage:coml"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "coml",
+        "extensions": [
+          ".coml"
+        ],
+        "aliases": [
+          "COML"
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "compile": "tsc -p ./"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0",
+    "@types/node": "^25.x",
+    "@types/vscode": "^1.85.0"
+  }
+}
