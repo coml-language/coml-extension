@@ -29,6 +29,9 @@ jobs:
             - name: Package (.vsix)
               run: npx @vscode/vsce package --allow-missing-repository
 
+            - name: Publish Vscode Extension
+              run: vsce publish
+              
             - name: Create GitHub Release
               uses: softprops/action-gh-release@v2
               with:
