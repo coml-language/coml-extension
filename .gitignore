@@ -1,13 +1,19 @@
 ## Nodes
 node_modules/
 **/node_modules/
+npm-debug.log*
 
-## Typescripts
+## Typescript / Build
 out/
 **/out/
+*.tsbuildinfo
 
-## Cargo
-target/
+## Rust / Cargo
+/target/
+**/*.rs.bk
 
-## Out
-editors/vscode/out/
+## OS / IDE
+.DS_Store
+.vscode/*
+!.vscode/launch.json
+!.vscode/tasks.json
