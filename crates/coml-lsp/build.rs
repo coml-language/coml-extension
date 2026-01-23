@@ -24,6 +24,15 @@ fn main() {
         vscode_directory.join("src").display()
     );
 
+    println!(
+        "cargo:rerun-if-changed={}",
+        workspace_root
+            .join("editors")
+            .join("vscode")
+            .join("syntaxes")
+            .display()
+    );
+
     run_command("npm", &["install"], &vscode_directory);
     run_command("npm", &["run", "compile"], &vscode_directory);
 }
