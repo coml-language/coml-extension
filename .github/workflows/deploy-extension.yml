@@ -26,6 +26,6 @@ jobs:
 
             - name: Install
               run: npm install
-
+            
             - name: Package (.vsix)
-              run: npx @vscode/vsce package ${{ github.event.inputs.version }}
+              run: npx @vscode/vsce package ${{ github.event.inputs.version }} --no-git-tag-version --allow-missing-repository
