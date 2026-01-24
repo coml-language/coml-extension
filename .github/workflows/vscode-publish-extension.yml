@@ -53,5 +53,6 @@ jobs:
         working-directory: editors/vscode
 
       - name: Package Extension (Release)
-        if: github.ref == 'refs/heads/release' && matrix.code-target
-        run: npx vsce package -o "../../dist/coml-extension-${{ matrix.code-target}}.vsix" --target ${{ matrix.code-target }}
+        if: ${{ (github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/release') && matrix.code-target }}
+        working-directory: editors/vscode
+        run: npx vsce package -o "../../dist/coml-extension-${{ matrix.code-target }}.vsix" --target ${{ matrix.code-target }}
