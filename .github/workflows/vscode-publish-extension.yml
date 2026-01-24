@@ -4,66 +4,25 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  dist:
+    if: ${{ github.repository == 'coml-lang/coml-extension' || github.event_name == 'workflow_dispatch' }}
     strategy:
-      fail-fast: false
       matrix:
         include:
-          - os: ubuntu-latest
-            target: x86_64-unknown-linux-gnu
-            bin: coml-lsp
-            suffix: linux-x64
           - os: windows-latest
             target: x86_64-pc-windows-msvc
-            bin: coml-lsp.exe
-            suffix: win32-x64
-
-    runs-on: ${{ matrix.os }}
+            code-target: win32-x64
+          - os: windows-latest
+            target: i686-pc-windows-msvc
+            pgo: clap-rs/clap@v4.5.36
+          - os: windows-latest
+            target: aarch64-pc-windows-msvc
+            code-target: win32-arm64
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
     
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+    name: dist (${{ matrix.target }})
+    runs-on: ${{ matrix.os }}
 
-      - name: Install Rust
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: ${{ matrix.target }}
-
-      - name: Build LSP
-        # Utilisation de --target impérative pour Windows
-        run: cargo build --release --target ${{ matrix.target }} -p coml-lsp
-
-      - name: Upload Binary
-        uses: actions/upload-artifact@v4
-        with:
-          name: lsp-${{ matrix.suffix }}
-          # Utilisation de chemins relatifs au projet pour éviter les erreurs Windows
-          path: target/${{ matrix.target }}/release/${{ matrix.bin }}
-
-  publish:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install Dependencies
-        working-directory: ./editors/vscode
-        run: npm install
-
-      # On télécharge les deux dossiers (linux-x64 et win32-x64)
-      - name: Download All Binaries
-        uses: actions/download-artifact@v4
-        with:
-          path: editors/vscode/bin
-
-      - name: Publish to Marketplace
-        working-directory: ./editors/vscode
-        env:
-          VSCE_PAT: ${{ secrets.VSCE_PAT }}
-        run: npx @vscode/vsce publish -p $VSCE_PAT
+    env:
+      RA_TARGET: ${{ matrix.target }}
