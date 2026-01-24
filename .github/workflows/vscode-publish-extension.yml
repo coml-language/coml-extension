@@ -48,3 +48,10 @@ jobs:
           rustup update --no-self-update stable
           rustup component add rust-src ${{ 'llvm-tools' || '' }}
           rustup target add ${{ matrix.target }}
+
+      - run: npm ci
+        working-directory: editors/vscode
+
+      - name: Package Extension (Release)
+        if: github.ref == 'refs/heads/release' && matrix.code-target
+        run: npx vsce package -o "../../dist/coml-extension-${{ matrix.code-target}}.vsix"
