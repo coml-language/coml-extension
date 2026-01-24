@@ -2,7 +2,7 @@
   "name": "coml",
   "displayName": "COML",
   "version": "0.1.0",
-  "publisher": "coml-lang",
+  "publisher": "coml",
   "engines": {
     "vscode": "^1.50.0"
   },
@@ -33,6 +33,14 @@
     ]
   },
   "scripts": {
-    "compile": "tsc -p ./"
+    "compile": "npx tsc -p ./"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.10",
+    "@types/vscode": "^1.108.1",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1"
   }
 }
