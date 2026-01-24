@@ -31,5 +31,8 @@
         "path": "./syntaxes/coml.tmLanguage.json"
       }
     ]
+  },
+  "scripts": {
+    "compile": "tsc -p ./"
   }
 }
