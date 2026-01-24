@@ -30,8 +30,14 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      
+
       - name: Install Node.js toolchaib
         uses: actions/setup-node@v4
         with:
           node-version: 22
+
+      - name: Install Rustup
+        if: ${{ matrix.container }}
+        run: |
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
