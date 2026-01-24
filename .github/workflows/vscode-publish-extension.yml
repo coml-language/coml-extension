@@ -20,7 +20,7 @@ jobs:
             code-target: win32-arm64
           - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
-    
+
     name: dist (${{ matrix.target }})
     runs-on: ${{ matrix.os }}
 
