@@ -26,3 +26,7 @@ jobs:
 
     env:
       RA_TARGET: ${{ matrix.target }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
