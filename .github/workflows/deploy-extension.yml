@@ -9,7 +9,7 @@ on:
                 default: "0.1.0"
 
 jobs:
-    deploy:
+    deploy-release:
         runs-on: ubuntu-latest
         permissions:
             contents: write
