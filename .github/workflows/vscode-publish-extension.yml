@@ -23,6 +23,7 @@ jobs:
 
     name: dist (${{ matrix.target }})
     runs-on: ${{ matrix.os }}
+    container: ${{ matrix.container }}
 
     env:
       RA_TARGET: ${{ matrix.target }}
@@ -31,7 +32,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Install Node.js toolchaib
+      - name: Install Node.js toolchain
         uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -41,3 +42,9 @@ jobs:
         run: |
           curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal
           echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+      - name: Install Rust Toolchain
+        run: |
+          rustup update --no-self-update stable
+          rustup component add rust-src ${{ 'llvm-tools' || '' }}
+          rustup target add ${{ matrix.target }}
