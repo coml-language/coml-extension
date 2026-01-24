@@ -1,5 +1,6 @@
 {
     "name": "coml-extension",
+    "publisher": "coml-lang",
     "private": true,
     "scripts": {
         "vsce:package": "cd editors/vscode && npx @vscode/vsce package --allow-missing-repository --out ../../coml.vsix",

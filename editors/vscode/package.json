@@ -14,7 +14,7 @@
   "contributes": {
     "languages": [
       {
-        "id": "coml",
+        "id": "coml-lang",
         "aliases": [
           "COML",
           "coml"
