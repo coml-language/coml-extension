@@ -17,6 +17,8 @@ export async function activate(_context: ExtensionContext) {
             }
         }
     }
+
+    
     const serverOptions: ServerOptions = {
         run,
         debug: run,
