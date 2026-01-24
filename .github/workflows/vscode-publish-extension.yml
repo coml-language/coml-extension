@@ -17,12 +17,7 @@ jobs:
             target: x86_64-pc-windows-msvc
             bin: coml-lsp.exe
             suffix: win32-x64
-          - os: macos-latest
-            target: x86_64-apple-darwin
-            bin: coml-lsp
-            suffix: darwin-x64
 
-    # C'est cette ligne qui résout l'erreur "crate for core"
     runs-on: ${{ matrix.os }}
     
     steps:
@@ -32,11 +27,9 @@ jobs:
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
         with:
-          toolchain: stable
           targets: ${{ matrix.target }}
 
       - name: Build LSP
-        # On force l'utilisation du target de la matrice
         run: cargo build --release --target ${{ matrix.target }} -p coml-lsp
 
       - name: Upload Binary
@@ -65,9 +58,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: editors/vscode/bin
-
-      - name: Check Binaries
-        run: ls -R editors/vscode/bin
 
       - name: Publish to Marketplace
         working-directory: ./editors/vscode
