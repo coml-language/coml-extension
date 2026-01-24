@@ -2,7 +2,7 @@
   "name": "coml",
   "displayName": "COML",
   "version": "0.1.0",
-  "publisher": "coml-lang",
+  "publisher": "coml",
   "icon": "./icons/coml-icon.png",
   "engines": {
     "vscode": "^1.100.0"
@@ -14,7 +14,7 @@
   "contributes": {
     "languages": [
       {
-        "id": "coml-lang",
+        "id": "coml",
         "aliases": [
           "COML",
           "coml"
