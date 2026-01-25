@@ -63,11 +63,8 @@ jobs:
         working-directory: editors/vscode
 
       - name: Build Rust LSP
-        run: cargo build --release --targe ${{ matrix.target }} -p coml-lsp
-        env:
-          RUSTFLAGS: "-C target-feature=+crt-static"
-          
-
+        run: cargo build --release --target ${{ matrix.target }} -p coml-lsp
+  
       - name: Package Extension (Release)
         if: ${{ (github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/release') && matrix.code-target }}
         working-directory: ./editors/vscode/
