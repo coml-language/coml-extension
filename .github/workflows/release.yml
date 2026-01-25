@@ -1,0 +1,49 @@
+name: Release Extension
+on:
+    workflow_dispatch:
+
+jobs:
+    dist:
+        name: dist (${{ matrix.target }})
+        runs-on: ${{ matrix.os }}
+        strategy:
+            fail-fast: false
+            matrix:
+                include:
+                    - os: windows-latest
+                      target: x86_64-pc-windows-msvc
+                      code-target: win32-x64
+                    - os: ubuntu-latest
+                      target: x86_64-unknown-linux-gnu
+                      code-target: linux-x64
+                    - os: macos-latest
+                      target: aarch64-apple-darwin
+                      code-target: darwin-arm64
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Install Rust
+              run: rustup target add ${{ matrix.target }}
+            
+            - name: Build LSP
+              run: cargo build --release --target ${{ matrix.target }} -p coml-lsp
+
+            - name: Prepare Assets
+              shell: bash
+              run: | 
+                mkdir -p editors/vscode/bin/
+                cp target/${{ matrix.target }}/release/coml-lsp* editors/vscode/bin/
+                mkdir -p dist
+            
+            - name: Install Node & Package
+              working-directory: ./editors/vscode
+              run: | 
+                npm ci
+                npx @vscode/vsce package -o "../../dist/coml-${{ matrix.code-target }}.vsix" --target ${{ matrix.code-target }} --no-dependencies
+            
+            - name: Upload Artifact
+              uses: actions/upload-artifact@v4
+              with:
+                name: vsix-packages
+                path: dist/*.vsix
+                retention-days: 1
