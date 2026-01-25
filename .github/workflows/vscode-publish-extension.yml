@@ -3,66 +3,63 @@ name: Publish Extension To Marketplace [VSCODE]
 on:
   workflow_dispatch:
 
-env:
-  CARGO_INCREMENTAL: 0
-  CARGO_NET_RETRY: 10
-  RUSTFLAGS: "-D warnings -W unreachable-pub"
-  RUSTUP_MAX_RETRIES: 10
-  FETCH_DEPTH: 0
-
 jobs:
   dist:
-    if: ${{ github.repository == 'coml-lang/coml-extension' || github.event_name == 'workflow_dispatch' }}
     strategy:
+      fail-fast: false
       matrix:
         include:
           - os: windows-latest
             target: x86_64-pc-windows-msvc
             code-target: win32-x64
-          - os: windows-latest
-            target: i686-pc-windows-msvc
-          - os: windows-latest
-            target: aarch64-pc-windows-msvc
-            code-target: win32-arm64
           - os: ubuntu-latest
             target: x86_64-unknown-linux-gnu
-            container: quay.io/pypa/manylinux_2_28_x86_64
             code-target: linux-x64
+            # On retire le container temporairement pour débugger plus facilement
+            # car il peut causer des problèmes de permissions sur le dossier dist
 
     name: dist (${{ matrix.target }})
     runs-on: ${{ matrix.os }}
-    container: ${{ matrix.container }}
-
-    env:
-      RA_TARGET: ${{ matrix.target }}
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: ${{ env.FETCH_DEPTH }}
 
-      - name: Install Node.js toolchain
+      - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      - name: Install Rustup
-        if: ${{ matrix.container }}
-        run: |
-          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal
-          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
-
       - name: Install Rust Toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      # 1. Compilation du LSP Rust
+      - name: Build Rust LSP
+        run: cargo build --release --target ${{ matrix.target }} -p coml-lsp
+
+      # 2. Installation des dépendances Node
+      - name: Install Node Dependencies
+        working-directory: ./editors/vscode
+        run: npm install # Utilise install au lieu de ci si ton lockfile n'est pas à jour
+
+      # 3. Préparation des fichiers pour le VSIX
+      - name: Prepare Assets
         run: |
-          rustup update --no-self-update stable
-          rustup component add rust-src ${{ 'llvm-tools' || '' }}
-          rustup target add ${{ matrix.target }}
+          mkdir -p editors/vscode/bin
+          mkdir -p dist
+          # Copie le binaire compilé dans le dossier de l'extension
+          cp target/${{ matrix.target }}/release/coml-lsp* editors/vscode/bin/
 
-      - run: npm ci
-        working-directory: editors/vscode
+      # 4. Packaging
+      - name: Package Extension
+        working-directory: ./editors/vscode
+        run: npx @vscode/vsce package -o "../../dist/coml-extension-${{ matrix.code-target }}.vsix" --target ${{ matrix.code-target }} --no-dependencies
 
-      - name: Package Extension (Release)
-        if: ${{ (github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/release') && matrix.code-target }}
-        working-directory: ./editors/vscode/
-        run: npx @vscode/vsce package -o "../../dist/coml-extension-${{ matrix.code-target }}.vsix" --target ${{ matrix.code-target }}
+      # 5. Upload l'artéfact pour que TU puisses le télécharger
+      - name: Upload VSIX
+        uses: actions/upload-artifact@v4
+        with:
+          name: coml-extension-${{ matrix.code-target }}
+          path: dist/*.vsix
