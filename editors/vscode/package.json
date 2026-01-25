@@ -3,7 +3,7 @@
   "displayName": "COML",
   "version": "0.1.0",
   "publisher": "coml",
-  "icon": "./icons",
+  "icon": "icons/coml-icon.png",
   "engines": {
     "vscode": "^1.100.0"
   },
