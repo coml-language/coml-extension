@@ -14,7 +14,6 @@ jobs:
             code-target: win32-x64
           - os: windows-latest
             target: i686-pc-windows-msvc
-            pgo: clap-rs/clap@v4.5.36
           - os: windows-latest
             target: aarch64-pc-windows-msvc
             code-target: win32-arm64
