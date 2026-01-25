@@ -3,13 +3,11 @@ on:
     workflow_run:
         workflows: ["Release Extension"]
         types: [completed]
-        branches: [release]
 
 jobs:
     publish:
-        runs-on: ubuntu-latest
         if: ${{ github.event.workflow_run.conclusion == 'success' }}
-
+        runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
 

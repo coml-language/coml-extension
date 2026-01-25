@@ -1,5 +1,7 @@
 name: Release Extension
 on:
+    push:
+        branches: [release]
     workflow_dispatch:
 
 jobs:
