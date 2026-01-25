@@ -1,0 +1,40 @@
+name: Publish Extension [vscode]
+on:
+    workflow_run:
+        workflows: ["Release Extension"]
+        types: [completed]
+        branches: [release]
+
+jobs:
+    publish:
+        runs-on: ubuntu-latest
+        if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Download all VSIX Artifacts
+              uses: actions/download-artifact@v4
+              with:
+                  pattern: vsix-*-packages
+                  path: final-dist
+                  merge-multiple: true
+
+            - name: Install Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 22
+
+            - name: Check downloaded files
+              run: ls -R final-dist/
+
+            - name: Publish to VSCODE Marketplace
+              working-directory: ./final-dist
+              env:
+                  VSCE_PAT: ${{ secrets.MARKETPLACE_TOKEN }}
+              run: |
+                  # Boucle sur tous les fichiers .vsix générés par la matrix
+                  for vsix in *.vsix; do
+                    echo "Publishing $vsix..."
+                    npx @vscode/vsce publish --pat $VSCE_PAT --packagePath "$vsix"
+                  done
