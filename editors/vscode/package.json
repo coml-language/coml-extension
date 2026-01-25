@@ -7,6 +7,10 @@
   "engines": {
     "vscode": "^1.100.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coml-lang/coml-extension.git"
+  },
   "categories": [
     "Programming Languages",
     "Formatters",
