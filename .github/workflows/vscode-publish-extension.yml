@@ -19,6 +19,7 @@ jobs:
                   pattern: vsix-*-packages
                   path: final-dist
                   merge-multiple: true
+                  run-id: ${{ github.event.workflow_run.id }}
 
             - name: Install Node.js
               uses: actions/setup-node@v4
