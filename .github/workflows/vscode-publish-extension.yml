@@ -3,6 +3,13 @@ name: Publish Extension To Marketplace [VSCODE]
 on:
   workflow_dispatch:
 
+env:
+  CARGO_INCREMENTAL: 0
+  CARGO_NET_RETRY: 10
+  RUSTFLAGS: "-D warnings -W unreachable-pub"
+  RUSTUP_MAX_RETRIES: 10
+  FETCH_DEPTH: 0 
+
 jobs:
   dist:
     if: ${{ github.repository == 'coml-lang/coml-extension' || github.event_name == 'workflow_dispatch' }}
@@ -32,6 +39,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: ${{ env.FETCH_DEPTH }}        
 
       - name: Install Node.js toolchain
         uses: actions/setup-node@v4
