@@ -1,6 +1,4 @@
 use cargo_metadata::MetadataCommand;
-use std::path::PathBuf;
-use std::process::Command;
 
 fn main() {
     let metadata = MetadataCommand::new()
