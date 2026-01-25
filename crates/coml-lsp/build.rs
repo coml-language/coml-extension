@@ -33,23 +33,4 @@ fn main() {
             .display()
     );
 
-    run_command("npm", &["install"], &vscode_directory);
-    run_command("npm", &["run", "compile"], &vscode_directory);
-}
-
-fn run_command(cmd: &str, args: &[&str], dir: &PathBuf) {
-    let status = Command::new(cmd)
-        .args(args)
-        .current_dir(dir)
-        .status()
-        .unwrap_or_else(|_| panic!("Failed to execute `{}` in {}", cmd, dir.display()));
-
-    if !status.success() {
-        panic!(
-            "Command '{}' failed with status {} in {}",
-            cmd,
-            status,
-            dir.display()
-        );
-    }
 }
