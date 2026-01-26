@@ -2,9 +2,9 @@
   "name": "coml-extension",
   "displayName": "Coml",
   "description": "Coml Language support for vscode",
-  "private": true,
+  "private": false,
   "icon": "icons/coml-icon.png",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "coml-lang",
   "type": "commonjs",
   "repository": {
