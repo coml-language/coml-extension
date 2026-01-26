@@ -19,6 +19,6 @@ jobs:
         run: npm install -g @vscode/vsce
 
       - name: Unpublish Extension
-        run: vsce unpublish --pat ${{ secrets.VSCE_PAT }}
+        run: vsce unpublish --pat ${{ secrets.MARKETPLACE_TOKEN }}
         # Note: You may need to provide the extension ID if not in package.json
         # run: vsce unpublish -p ${{ secrets.VSCE_PAT }} publisher.extension-name
