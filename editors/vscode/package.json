@@ -5,7 +5,7 @@
   "private": false,
   "icon": "icons/coml-icon.png",
   "version": "0.1.2",
-  "publisher": "coml-lang",
+  "publisher": "coml",
   "type": "commonjs",
   "repository": {
     "url": "https://github.com/coml-language/coml-extension.git",
