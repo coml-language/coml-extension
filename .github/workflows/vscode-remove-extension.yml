@@ -1,0 +1,24 @@
+name: Remove Extension To Marketplace [vscode]
+
+on:
+    workflow_dispatch:
+
+jobs:
+  unpublish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install VSCE
+        run: npm install -g @vscode/vsce
+
+      - name: Unpublish Extension
+        run: vsce unpublish --pat ${{ secrets.VSCE_PAT }}
+        # Note: You may need to provide the extension ID if not in package.json
+        # run: vsce unpublish -p ${{ secrets.VSCE_PAT }} publisher.extension-name
