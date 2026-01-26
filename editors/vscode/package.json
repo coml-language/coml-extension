@@ -1,6 +1,6 @@
 {
-  "name": "coml-lsp",
-  "displayName": "Coml",
+  "name": "coml-extension",
+  "displayName": "coml-analyzer",
   "description": "Coml Language support for vscode",
   "private": false,
   "icon": "icons/coml-icon.png",
