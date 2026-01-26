@@ -27,3 +27,14 @@ jobs:
 
             - name: Check downloaded files
               run: ls -R final-dist/
+
+            - name: Publish to VSCODE Marketplace
+              working-directory: ./final-dist
+              env:
+                  VSCE_PAT: ${{ secrets.MARKETPLACE_TOKEN }}
+              run: |
+                  # Boucle sur tous les fichiers .vsix générés par la matrix
+                  for vsix in *.vsix; do
+                    echo "Publishing $vsix..."
+                    npx @vscode/vsce publish --pat $VSCE_PAT --packagePath "$vsix"
+                  done
