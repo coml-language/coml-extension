@@ -1,5 +1,5 @@
 {
-  "name": "coml-extension",
+  "name": "coml",
   "displayName": "coml",
   "description": "Coml Language support for vscode",
   "private": false,
