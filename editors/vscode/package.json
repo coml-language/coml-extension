@@ -1,5 +1,5 @@
 {
-  "name": "coml-extension",
+  "name": "coml-lsp",
   "displayName": "Coml",
   "description": "Coml Language support for vscode",
   "private": false,
