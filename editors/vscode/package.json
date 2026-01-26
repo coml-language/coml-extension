@@ -4,7 +4,7 @@
   "description": "Coml Language support for vscode",
   "private": false,
   "icon": "icons/coml-icon.png",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "publisher": "coml-lang",
   "type": "commonjs",
   "repository": {
