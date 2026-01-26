@@ -1,11 +1,11 @@
 {
   "name": "coml",
-  "displayName": "coml",
+  "displayName": "coml-analyzer",
   "description": "Coml Language support for vscode",
   "private": false,
   "icon": "icons/coml-icon.png",
   "version": "0.1.2",
-  "publisher": "coml",
+  "publisher": "coml-lang",
   "type": "commonjs",
   "repository": {
     "url": "https://github.com/coml-language/coml-extension.git",
