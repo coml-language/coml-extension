@@ -18,6 +18,7 @@ jobs:
                   path: final-dist
                   merge-multiple: true
                   run-id: ${{ github.event.workflow_run.id }}
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Install Node.js
               uses: actions/setup-node@v4
