@@ -1,6 +1,6 @@
 {
   "name": "coml",
-  "displayName": "comL",
+  "displayName": "Coml",
   "description": "Coml Language support for vscode",
   "private": false,
   "icon": "icons/coml-icon.png",
