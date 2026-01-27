@@ -34,11 +34,9 @@
   "engines": {
     "vscode": "^1.108.0"
   },
-  "main": "./out/extension.js",
   "scripts": {
     "compile": "tsc -p ./",
     "package": "vcse package -o coml.vsix"
-    
   },
   "dependencies": {
     "vscode-languageclient": "^9.0.1"
