@@ -1,10 +1,9 @@
 {
   "name": "coml",
   "displayName": "Coml",
-  "version": "0.1.2",
   "description": "Coml Language support for Vscode.",
+  "version": "0.1.2",
   "publisher": "coml-lang",
-  "license": "MIT OR Apache-2.0",
   "private": true,
   "preview": true,
   "type": "commonjs",
@@ -28,9 +27,14 @@
     "Linters",
     "Formatters"
   ],
+  "activationEvents": [
+    "onLanguage:coml"
+  ],
+  "license": "MIT OR Apache-2.0",
   "engines": {
     "vscode": "^1.108.0"
   },
+  "main": "./out/extension.js",
   "scripts": {
     "compile": "tsc -p ./",
     "package": "vcse package -o coml.vsix"
@@ -39,20 +43,33 @@
     "vscode-languageclient": "^9.0.1"
   },
   "devDependencies": {
-    "@eslint/js": "^9.21.0",
-    "@stylistic/eslint-plugin": "^5.7.0",
     "@tsconfig/strictest": "^2.0.5",
     "@types/node": "~25.0.x",
     "@types/vscode": "~1.108.0",
     "@vscode/test-electron": "^2.4.1",
     "@vscode/vsce": "^3.6.0",
     "esbuild": "^0.27.2",
-    "eslint": "^9.21.0",
-    "eslint-config-prettier": "^10.0.2",
-    "prettier": "^3.5.2",
-    "typescript": "^5.7.3",
-    "typescript-eslint": "^8.54.0"
+    "typescript": "^5.7.3"
   },
-  "enabledApiProposals": [],
-  "capabilities": {}
+  "contributes": {
+    "grammars": [
+      {
+        "language": "coml",
+        "scopeName": "source.id",
+        "path": "./syntaxes/coml.tmLanguage.json"
+      }
+    ],
+    "languages": [
+      {
+        "id": "coml",
+        "aliases": [
+          "COML"
+        ],
+        "extensions": [
+          ".coml"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ]
+  }
 }
