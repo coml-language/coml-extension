@@ -2,7 +2,7 @@
   "name": "coml",
   "displayName": "Coml",
   "description": "Coml Language support for Vscode.",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "publisher": "coml-lang",
   "private": true,
   "preview": true,
