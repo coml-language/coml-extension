@@ -15,9 +15,7 @@ path = "src/main.rs"
 default = []
 
 [dependencies]
-tokio = { version = "*", default-features = false, features = ["full"] }
-tower-lsp = { version = "*" }
-serde = { version = "*", default-features = false, features = ["derive"] }
+
 
 [build-dependencies]
 cargo_metadata = "0.23"
