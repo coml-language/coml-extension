@@ -15,7 +15,6 @@ vscode = "./editors/vscode"
 [workspace.dependencies]
 coml-lsp = { version = "*", path = "./crates/coml-lsp" }
 
-
 [profile.release]
 codegen-units = 1
 lto = "thin"
